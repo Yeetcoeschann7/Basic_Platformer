@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://dsch50gfismgm"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_hmg35"]
+[ext_resource type="Texture2D" uid="uid://c0g0fbsu75eyi" path="res://images/blocks/blocks_tileset.png" id="1_i4l38"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_df3yu"]
+size = Vector2(8, 7)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hthq8"]
+atlas = ExtResource("1_i4l38")
+region = Rect2(0, 8, 8, 8)
+
+[node name="player" type="CharacterBody2D"]
+script = ExtResource("1_hmg35")
+
+[node name="player_collider" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_df3yu")
+
+[node name="player_sprite" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_hthq8")

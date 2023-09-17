@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://b70x2ndnybghb"]
+
+[ext_resource type="AudioStream" uid="uid://3suhjsl8tayv" path="res://audio/music/516738__mvrasseli__funky-loop.wav" id="1_ubyb6"]
+
+[node name="global_music" type="AudioStreamPlayer"]
+stream = ExtResource("1_ubyb6")
+autoplay = true

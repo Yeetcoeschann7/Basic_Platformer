@@ -19,3 +19,13 @@ shape = SubResource("RectangleShape2D_df3yu")
 
 [node name="player_sprite" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_hthq8")
+
+[node name="ray_left" type="RayCast2D" parent="."]
+rotation = 1.5708
+scale = Vector2(2, 1)
+target_position = Vector2(1.31134e-07, 6)
+
+[node name="ray_right" type="RayCast2D" parent="."]
+rotation = 1.5708
+scale = Vector2(2, 1)
+target_position = Vector2(-1.31134e-07, -6)

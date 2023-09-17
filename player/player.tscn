@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dsch50gfismgm"]
+[gd_scene load_steps=7 format=3 uid="uid://dsch50gfismgm"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_hmg35"]
 [ext_resource type="Texture2D" uid="uid://c0g0fbsu75eyi" path="res://images/blocks/blocks_tileset.png" id="1_i4l38"]
@@ -9,6 +9,32 @@ size = Vector2(8, 7)
 [sub_resource type="AtlasTexture" id="AtlasTexture_hthq8"]
 atlas = ExtResource("1_i4l38")
 region = Rect2(0, 8, 8, 8)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gsjpb"]
+lifetime_randomness = 1.0
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+particle_flag_disable_z = true
+direction = Vector3(1, 1, 0)
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = -30.0
+initial_velocity_max = -30.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color = Color(0, 0.8, 0, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0ax7x"]
+lifetime_randomness = 1.0
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+particle_flag_disable_z = true
+direction = Vector3(1, -1, 0)
+gravity = Vector3(0, 98, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 30.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color = Color(0, 0.8, 0, 1)
 
 [node name="player" type="CharacterBody2D"]
 script = ExtResource("1_hmg35")
@@ -23,9 +49,27 @@ texture = SubResource("AtlasTexture_hthq8")
 [node name="ray_left" type="RayCast2D" parent="."]
 rotation = 1.5708
 scale = Vector2(2, 1)
-target_position = Vector2(1.31134e-07, 6)
+target_position = Vector2(1.09278e-07, 5)
+
+[node name="particles_left" type="GPUParticles2D" parent="ray_left"]
+position = Vector2(1.5, 4)
+rotation = -1.5708
+scale = Vector2(1, 0.5)
+emitting = false
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_gsjpb")
+lifetime = 0.3
 
 [node name="ray_right" type="RayCast2D" parent="."]
 rotation = 1.5708
 scale = Vector2(2, 1)
-target_position = Vector2(-1.31134e-07, -6)
+target_position = Vector2(-1.09278e-07, -5)
+
+[node name="particles_right" type="GPUParticles2D" parent="ray_right"]
+position = Vector2(1.5, -4)
+rotation = -1.5708
+scale = Vector2(1, 0.5)
+emitting = false
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_0ax7x")
+lifetime = 0.3

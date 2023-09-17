@@ -6,17 +6,22 @@ const SPEED = 115.0
 const JUMP_VELOCITY = -270.0
 const WALL_PUSH = 200
 const BUFFER_LENGTH = 10
-const WALL_GRAVITY = 2000
+const WALL_GRAVITY = 30
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = 950
 var jumpReset = false
 var buffer_frames = 0
+var is_sliding = false
 
 
 func _physics_process(delta):
+	$ray_left/particles_left.emitting = false
+	$ray_right/particles_right.emitting = false
 	jump(delta)
 	walk(delta)
 	move_and_slide()
+	wall_slide(delta)
+	compute_particles()
 	
 func walk(_delta):
 	var direction = Input.get_axis("left", "right")
@@ -49,3 +54,32 @@ func jump(delta):
 
 func reset_buffer():
 	buffer_frames = 0
+	
+func wall_slide(delta):
+	#Thx DevWorm! (https://www.youtube.com/@dev-worm)
+	if is_on_wall() and !is_on_floor():
+		if Input.is_action_pressed("left") or Input.is_action_pressed("right"):
+			is_sliding = true
+		else:
+			is_sliding = false
+	else:
+		is_sliding = false
+		
+	if is_sliding:
+		velocity.y += (WALL_GRAVITY * delta)
+		velocity.y = min(velocity.y, WALL_GRAVITY)
+
+func compute_particles():
+	if not is_on_floor() and $ray_right.is_colliding():
+		$ray_right/particles_right.emitting = true
+	#elif is_on_floor() and velocity.x < -5:
+		#$ray_right/particles_right.emitting = true
+	else:
+		$ray_right/particles_right.emitting = false
+	
+	if not is_on_floor() and $ray_left.is_colliding():
+		$ray_left/particles_left.emitting = true
+	#elif is_on_floor() and velocity.x > 5:
+		#$ray_left/particles_left.emitting = true
+	else:
+		$ray_left/particles_left.emitting = false

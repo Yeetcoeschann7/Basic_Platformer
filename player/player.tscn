@@ -1,14 +1,74 @@
-[gd_scene load_steps=7 format=3 uid="uid://dsch50gfismgm"]
+[gd_scene load_steps=11 format=3 uid="uid://dsch50gfismgm"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_hmg35"]
-[ext_resource type="Texture2D" uid="uid://c0g0fbsu75eyi" path="res://images/blocks/blocks_tileset.png" id="1_i4l38"]
+[ext_resource type="Texture2D" uid="uid://deld7dabglha7" path="res://images/blocks/slime_block.png" id="2_b2rdh"]
+[ext_resource type="AudioStream" uid="uid://wd575a2oqena" path="res://audio/sfx/player_jump.mp3" id="3_cqght"]
+[ext_resource type="AudioStream" uid="uid://e2anlm5uj8l8" path="res://audio/sfx/player_land.wav" id="4_bi1oy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_df3yu"]
 size = Vector2(8, 7)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hthq8"]
-atlas = ExtResource("1_i4l38")
-region = Rect2(0, 8, 8, 8)
+[sub_resource type="Animation" id="Animation_3g3r8"]
+resource_name = "squish"
+length = 0.35
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("player_sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1.05, 0.95), Vector2(1.15, 0.9), Vector2(1.15, 0.9), Vector2(1.05, 0.95), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("player_sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0.2), Vector2(0, 0.4), Vector2(0, 0.4), Vector2(0, 0.2), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_748dr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("player_sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("player_sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0.2)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n8rm5"]
+_data = {
+"RESET": SubResource("Animation_748dr"),
+"squish": SubResource("Animation_3g3r8")
+}
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gsjpb"]
 lifetime_randomness = 1.0
@@ -43,8 +103,14 @@ script = ExtResource("1_hmg35")
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_df3yu")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_n8rm5")
+}
+
 [node name="player_sprite" type="Sprite2D" parent="."]
-texture = SubResource("AtlasTexture_hthq8")
+position = Vector2(0, 0.2)
+texture = ExtResource("2_b2rdh")
 
 [node name="ray_left" type="RayCast2D" parent="."]
 rotation = 1.5708
@@ -59,6 +125,8 @@ emitting = false
 amount = 20
 process_material = SubResource("ParticleProcessMaterial_gsjpb")
 lifetime = 0.3
+one_shot = true
+explosiveness = 0.3
 
 [node name="ray_right" type="RayCast2D" parent="."]
 rotation = 1.5708
@@ -73,9 +141,18 @@ emitting = false
 amount = 20
 process_material = SubResource("ParticleProcessMaterial_0ax7x")
 lifetime = 0.3
+one_shot = true
+explosiveness = 0.3
 
 [node name="move_timer" type="Timer" parent="."]
 wait_time = 0.6
 one_shot = true
+
+[node name="jump_sfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_cqght")
+
+[node name="land_sfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_bi1oy")
+volume_db = -10.0
 
 [connection signal="timeout" from="move_timer" to="." method="_on_move_timer_timeout"]

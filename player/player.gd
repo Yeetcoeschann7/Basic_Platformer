@@ -36,18 +36,19 @@ func walk(_delta):
 func jump(delta):
 	if Input.is_action_just_pressed("jump"):
 		buffer_frames = BUFFER_LENGTH
-		if $ray_right.is_colliding() and (Input.is_action_pressed("left") or Input.is_action_pressed("right")) and not is_on_floor(): 
-			velocity.y = JUMP_VELOCITY
-			velocity.x = -WALL_PUSH
-			no_move = ["left", "none"]
-			$move_timer.start()
-			reset_buffer()
-		if $ray_left.is_colliding() and (Input.is_action_pressed("left") or Input.is_action_pressed("right")) and not is_on_floor(): 
-			velocity.y = JUMP_VELOCITY
-			velocity.x = WALL_PUSH
-			no_move = ["none", "right"]
-			$move_timer.start()
-			reset_buffer()
+		if Input.is_action_pressed("left") or Input.is_action_pressed("right") and !is_on_floor():
+			if $ray_right.is_colliding(): 
+				velocity.y = JUMP_VELOCITY
+				velocity.x = -WALL_PUSH
+				no_move = ["left", "none"]
+				$move_timer.start()
+				reset_buffer()
+			if $ray_left.is_colliding(): 
+				velocity.y = JUMP_VELOCITY
+				velocity.x = WALL_PUSH
+				no_move = ["none", "right"]
+				$move_timer.start()
+				reset_buffer()
 	
 	if buffer_frames > 0:
 		if is_on_floor() or jumpReset == true:

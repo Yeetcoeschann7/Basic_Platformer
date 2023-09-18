@@ -13,7 +13,12 @@ config_version=5
 config/name="Basic_Platformer"
 run/main_scene="res://levels/test_levels/test_level1.tscn"
 config/features=PackedStringArray("4.1", "GL Compatibility")
-config/icon="res://icon.svg"
+boot_splash/bg_color=Color(0.133333, 0.133333, 0.133333, 1)
+boot_splash/show_image=false
+boot_splash/image="res://images/blocks/blocks_tileset.png"
+boot_splash/use_filter=false
+config/icon="res://images/blocks/blocks_tileset.png"
+config/windows_native_icon="res://images/blocks/blocks_tileset.ico"
 
 [autoload]
 

@@ -2,35 +2,38 @@ extends CharacterBody2D
 
 const ACCELERATION = 0.3
 const FRICTION = 0.15
-const SPEED = 100.0
-const JUMP_VELOCITY = -200.0
-const WALL_PUSH = 180
+const SPEED = 100.0 * 4
+const JUMP_VELOCITY = -200.0 * 4
+const WALL_PUSH = 180 * 4
 var BUFFER_LENGTH = 10
-const WALL_GRAVITY = 30
+const WALL_GRAVITY = 30 * 4
 # Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = 525
+var gravity = 525 * 4
 var jumpReset = false
 var buffer_frames = 0
 var is_sliding = false
 var no_move = ["left", "right"]
 var next_land = false
 var sec = 0
+var prev_x = self.position.x
 
 
 
 func _physics_process(delta):
 	if sec < 10:
 		sec += 1
+	if !is_on_floor() and !is_sliding and sec > 5:
+		$AnimationPlayer.play("stretch")
 	jump(delta)
 	walk(delta)
 	move_and_slide()
 	wall_slide(delta)
 	compute_particles()
 	land_sfx()
+	ground_particles()
 	
 func walk(_delta):
 	var direction = Input.get_axis(no_move[0], no_move[1])
-		
 	if direction:
 		velocity.x = lerp(velocity.x, direction * SPEED, ACCELERATION)
 	else:
@@ -64,7 +67,7 @@ func jump(delta):
 		if velocity.y < -100:
 			velocity.y = -100
 			
-	velocity.y = min(velocity.y, 500)
+	velocity.y = min(velocity.y, 800)
 	velocity.y += gravity * delta
 	buffer_frames -= 1
 
@@ -98,6 +101,13 @@ func land_sfx():
 		$AnimationPlayer.play("squish")
 		$land_sfx.play()
 		next_land = false
+
+func ground_particles():
+	if velocity.x >= 1 and is_on_floor() and (self.position.x != prev_x):
+		$ray_left/particles_left.emitting = true
+	if velocity.x <= -1 and is_on_floor() and (self.position.x != prev_x):
+		$ray_right/particles_right.emitting = true
+	prev_x = self.position.x
 
 func _on_move_timer_timeout():
 	no_move = ["left", "right"]

@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvex5043dx11l"]
+
+[ext_resource type="PackedScene" uid="uid://bhfu0b8gbr8r6" path="res://levels/level1/level1.tscn" id="1_hyksl"]
+
+[node name="level1" instance=ExtResource("1_hyksl")]
+scale = Vector2(4.00938, 3.93845)
+
+[node name="TextureRect" parent="." index="0"]
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" parent="." index="5"]
+metadata/_edit_use_anchors_ = true

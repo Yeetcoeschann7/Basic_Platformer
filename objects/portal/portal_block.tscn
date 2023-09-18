@@ -1,0 +1,53 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4vajfq12jrdc"]
+
+[ext_resource type="Script" path="res://objects/portal/portal_block.gd" id="1_ojjp3"]
+[ext_resource type="TileSet" uid="uid://d11dvp8kaux3o" path="res://levels/tilesets/blocks_tileset.tres" id="2_t6n50"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2on8j"]
+size = Vector2(14, 8)
+
+[node name="portal_block" type="Node2D"]
+script = ExtResource("1_ojjp3")
+
+[node name="portal_tiles" type="TileMap" parent="."]
+scale = Vector2(4, 4)
+tile_set = ExtResource("2_t6n50")
+format = 2
+layer_0/tile_data = PackedInt32Array(0, 131072, 1, 1, 131072, 1)
+
+[node name="portal_area" type="Area2D" parent="."]
+scale = Vector2(4, 4)
+
+[node name="portal_collider" type="CollisionShape2D" parent="portal_area"]
+position = Vector2(8, 2)
+shape = SubResource("RectangleShape2D_2on8j")
+
+[node name="ColorRect" type="ColorRect" parent="portal_area"]
+offset_left = 2.0
+offset_top = -24.0
+offset_right = 10.0
+offset_bottom = -16.0
+scale = Vector2(1.57558, 1.46926)
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="portal_area/ColorRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.594438
+anchor_top = 0.00876629
+anchor_right = 1.65556
+anchor_bottom = 0.00876617
+offset_top = 7.25
+offset_right = 11.0
+offset_bottom = 79.25
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5708
+scale = Vector2(0.25, 0.25)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 50
+text = ">"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="body_entered" from="portal_area" to="." method="_on_portal_area_body_entered"]
+[connection signal="body_exited" from="portal_area" to="." method="_on_portal_area_body_exited"]

@@ -16,24 +16,33 @@ var no_move = ["left", "right"]
 var next_land = false
 var sec = 0
 var prev_x = self.position.x
+var prev_y = self.position.y
 var spawn = self.position
+var was_on_floor = false
 
 func _ready():
 	spawn = self.position
-	print(spawn, " ", self.position)
 
 func _physics_process(delta):
+	prev_y = self.position.y
 	if sec < 10:
 		sec += 1
 	if !is_on_floor() and !is_sliding and sec > 5:
 		$AnimationPlayer.play("stretch")
+	if is_on_floor():
+		was_on_floor = true
+	else:
+		was_on_floor = false
+		
+	move_and_slide()
 	jump(delta)
 	walk(delta)
-	move_and_slide()
 	wall_slide(delta)
 	compute_particles()
 	land_sfx()
 	ground_particles()
+	if (was_on_floor == true and is_on_floor() == false) and self.position.y > prev_y:
+		$coyote_timer.start()
 	
 func walk(_delta):
 	var direction = Input.get_axis(no_move[0], no_move[1])
@@ -62,7 +71,7 @@ func jump(delta):
 				reset_buffer()
 	
 	if buffer_frames > 0:
-		if is_on_floor() or jumpReset == true:
+		if is_on_floor() or not $coyote_timer.is_stopped():
 			$jump_sfx.play()
 			velocity.y = JUMP_VELOCITY
 

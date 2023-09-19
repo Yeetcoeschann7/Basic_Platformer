@@ -9,7 +9,14 @@ func _ready():
 func _process(_delta):
 	if entered == true:
 		if Input.is_action_just_pressed("up"):
-			get_tree().change_scene_to_file("res://levels/test_levels/test_level1.tscn")
+			if get_tree().current_scene.name == "level1":
+				get_tree().change_scene_to_file("res://levels/level2/level2.tscn")
+			elif get_tree().current_scene.name == "level2":
+				get_tree().change_scene_to_file("res://levels/level3/level3.tscn")
+			elif get_tree().current_scene.name == "level3":
+				get_tree().change_scene_to_file("res://levels/level4/level4.tscn")
+			elif get_tree().current_scene.name == "level4":
+				get_tree().change_scene_to_file("res://levels/test_levels/test_level1.tscn")
 
 func _on_portal_area_body_entered(body):
 	if body.name == "player":

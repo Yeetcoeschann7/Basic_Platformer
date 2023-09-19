@@ -16,8 +16,11 @@ var no_move = ["left", "right"]
 var next_land = false
 var sec = 0
 var prev_x = self.position.x
+var spawn = self.position
 
-
+func _ready():
+	spawn = self.position
+	print(spawn, " ", self.position)
 
 func _physics_process(delta):
 	if sec < 10:
@@ -103,11 +106,19 @@ func land_sfx():
 		next_land = false
 
 func ground_particles():
-	if velocity.x >= 1 and is_on_floor() and (self.position.x != prev_x):
+	if velocity.x >= 200 and is_on_floor() and (self.position.x != prev_x):
 		$ray_left/particles_left.emitting = true
-	if velocity.x <= -1 and is_on_floor() and (self.position.x != prev_x):
+	if velocity.x <= -200 and is_on_floor() and (self.position.x != prev_x):
 		$ray_right/particles_right.emitting = true
 	prev_x = self.position.x
+	
+	if (velocity.y < 200 and velocity.y > -200) and !is_on_floor():
+		$AnimationPlayer.play("still")
 
 func _on_move_timer_timeout():
 	no_move = ["left", "right"]
+
+
+func _on_hazard_area_body_entered(body):
+	if body.name == "tile_map":
+		self.position = spawn

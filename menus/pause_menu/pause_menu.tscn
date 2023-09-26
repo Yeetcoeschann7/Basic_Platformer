@@ -1,0 +1,57 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2dr8dim71v5e"]
+
+[ext_resource type="Script" path="res://menus/pause_menu/pause_menu.gd" id="1_c4fru"]
+[ext_resource type="AudioStream" uid="uid://dn5rgoxohsuep" path="res://audio/sfx/Menu_Nav.wav" id="2_sbq5r"]
+
+[node name="pause_menu" type="Control"]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_c4fru")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -9.0
+offset_top = -14.0
+offset_right = 1612.0
+offset_bottom = 887.0
+scale = Vector2(0.803911, 0.829032)
+color = Color(0.215686, 0.215686, 0.215686, 0.776471)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 338.0
+offset_top = 68.0
+offset_right = 938.0
+offset_bottom = 174.0
+theme_override_font_sizes/font_size = 75
+text = "- Paused -"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="resume_button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 522.0
+offset_top = 316.0
+offset_right = 750.0
+offset_bottom = 393.0
+theme_override_font_sizes/font_size = 50
+text = " Resume "
+
+[node name="quit_button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 486.0
+offset_top = 494.0
+offset_right = 793.0
+offset_bottom = 571.0
+theme_override_font_sizes/font_size = 50
+text = " Main Menu "
+
+[node name="menu_noise" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_sbq5r")
+
+[connection signal="focus_entered" from="resume_button" to="." method="_on_resume_button_focus_entered"]
+[connection signal="pressed" from="resume_button" to="." method="_on_resume_button_pressed"]
+[connection signal="focus_entered" from="quit_button" to="." method="_on_quit_button_focus_entered"]
+[connection signal="pressed" from="quit_button" to="." method="_on_quit_button_pressed"]

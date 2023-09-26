@@ -176,7 +176,7 @@ color = Color(0, 0.8, 0, 1)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pqraw"]
 size = Vector2(7, 7)
 
-[node name="player" type="CharacterBody2D"]
+[node name="player" type="CharacterBody2D" groups=["player"]]
 scale = Vector2(4, 4)
 script = ExtResource("1_hmg35")
 
@@ -250,5 +250,10 @@ shape = SubResource("RectangleShape2D_pqraw")
 wait_time = 0.07
 one_shot = true
 
+[node name="reset_timer" type="Timer" parent="."]
+wait_time = 0.05
+one_shot = true
+
 [connection signal="timeout" from="move_timer" to="." method="_on_move_timer_timeout"]
 [connection signal="body_entered" from="hazard_area" to="." method="_on_hazard_area_body_entered"]
+[connection signal="timeout" from="reset_timer" to="." method="_on_reset_timer_timeout"]

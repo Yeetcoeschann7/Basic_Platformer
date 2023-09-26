@@ -7,7 +7,6 @@ const JUMP_VELOCITY = -200.0 * 4
 const WALL_PUSH = 180 * 4
 var BUFFER_LENGTH = 10
 const WALL_GRAVITY = 30 * 4
-# Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = 525 * 4
 var jumpReset = false
 var buffer_frames = 0
@@ -19,6 +18,7 @@ var prev_x = self.position.x
 var prev_y = self.position.y
 var spawn = self.position
 var was_on_floor = false
+var reset = false
 
 func _ready():
 	spawn = self.position
@@ -129,5 +129,11 @@ func _on_move_timer_timeout():
 
 
 func _on_hazard_area_body_entered(body):
-	if body.name == "tile_map":
+	if body.name == "tile_map" or body.name == "the_wall":
+		$reset_timer.start()
+		reset = true
 		self.position = spawn
+
+
+func _on_reset_timer_timeout():
+	reset = false

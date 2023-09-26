@@ -1,7 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://b70x2ndnybghb"]
+[gd_scene load_steps=4 format=3 uid="uid://b70x2ndnybghb"]
 
 [ext_resource type="AudioStream" uid="uid://3suhjsl8tayv" path="res://audio/music/516738__mvrasseli__funky-loop.wav" id="1_ubyb6"]
+[ext_resource type="AudioStream" uid="uid://bhkqe0nk0pr8j" path="res://audio/music/tense_music.wav" id="2_6evua"]
+[ext_resource type="Script" path="res://audio/music/global_music.gd" id="2_fjj1r"]
 
 [node name="global_music" type="AudioStreamPlayer"]
 stream = ExtResource("1_ubyb6")
 autoplay = true
+script = ExtResource("2_fjj1r")
+
+[node name="tense_music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_6evua")
+volume_db = -8.66

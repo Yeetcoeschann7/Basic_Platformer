@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://ci3171ombdlqv"]
+
+[ext_resource type="PackedScene" uid="uid://dsch50gfismgm" path="res://player/player.tscn" id="1_rg4nl"]
+
+[node name="player" instance=ExtResource("1_rg4nl")]
+
+[node name="Camera2D" type="Camera2D" parent="." index="10"]
+position = Vector2(0, -35.25)
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+drag_left_margin = 0.3
+drag_top_margin = 0.5
+drag_right_margin = 0.3
+drag_bottom_margin = 0.3

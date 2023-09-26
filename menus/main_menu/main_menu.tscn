@@ -1,0 +1,101 @@
+[gd_scene load_steps=6 format=3 uid="uid://bg0h5hgul06b5"]
+
+[ext_resource type="Script" path="res://menus/main_menu/main_menu.gd" id="1_2tyev"]
+[ext_resource type="Shader" path="res://shaders/wacky_scrolling.gdshader" id="1_n64ea"]
+[ext_resource type="Texture2D" uid="uid://bn8b2tcfs8ahe" path="res://images/backdrops/grid.png" id="2_vjnx3"]
+[ext_resource type="AudioStream" uid="uid://dn5rgoxohsuep" path="res://audio/sfx/Menu_Nav.wav" id="4_2n1il"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p7dku"]
+shader = ExtResource("1_n64ea")
+shader_parameter/scroll_speed = 0.08
+
+[node name="main_menu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_2tyev")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_p7dku")
+layout_mode = 1
+offset_right = 320.0
+offset_bottom = 180.0
+scale = Vector2(4, 4)
+texture = ExtResource("2_vjnx3")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+offset_left = 112.0
+offset_top = 50.0
+offset_right = 1392.0
+offset_bottom = 774.0
+scale = Vector2(0.803911, 0.829032)
+color = Color(0.215686, 0.215686, 0.215686, 0.776471)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 343.0
+offset_top = 68.0
+offset_right = 943.0
+offset_bottom = 174.0
+theme_override_font_sizes/font_size = 75
+text = "Basic Platformer"
+
+[node name="play_button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 544.0
+offset_top = 283.0
+offset_right = 679.0
+offset_bottom = 360.0
+theme_override_font_sizes/font_size = 50
+text = " Play "
+
+[node name="level_button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 473.0
+offset_top = 403.0
+offset_right = 763.0
+offset_bottom = 480.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 50
+text = " Level Select "
+
+[node name="quit_button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 544.0
+offset_top = 527.0
+offset_right = 683.0
+offset_bottom = 604.0
+theme_override_font_sizes/font_size = 50
+text = " Quit "
+
+[node name="menu_noise" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_2n1il")
+
+[node name="play_timer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
+[node name="quit_timer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
+[node name="test_timer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
+[connection signal="focus_entered" from="play_button" to="." method="_on_play_button_focus_entered"]
+[connection signal="pressed" from="play_button" to="." method="_on_play_button_pressed"]
+[connection signal="focus_entered" from="level_button" to="." method="_on_level_button_focus_entered"]
+[connection signal="pressed" from="level_button" to="." method="_on_level_button_pressed"]
+[connection signal="focus_entered" from="quit_button" to="." method="_on_quit_button_focus_entered"]
+[connection signal="pressed" from="quit_button" to="." method="_on_quit_button_pressed"]
+[connection signal="timeout" from="play_timer" to="." method="_on_play_timer_timeout"]
+[connection signal="timeout" from="quit_timer" to="." method="_on_quit_timer_timeout"]
+[connection signal="timeout" from="test_timer" to="." method="_on_test_timer_timeout"]

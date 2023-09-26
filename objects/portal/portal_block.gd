@@ -16,7 +16,9 @@ func _process(_delta):
 			elif get_tree().current_scene.name == "level3":
 				get_tree().change_scene_to_file("res://levels/level4/level4.tscn")
 			elif get_tree().current_scene.name == "level4":
-				get_tree().change_scene_to_file("res://levels/test_levels/test_level1.tscn")
+				get_tree().change_scene_to_file("res://levels/level5/level5.tscn")
+			elif get_tree().current_scene.name == "level5":
+				get_tree().change_scene_to_file("res://menus/main_menu/main_menu.tscn")
 
 func _on_portal_area_body_entered(body):
 	if body.name == "player":
